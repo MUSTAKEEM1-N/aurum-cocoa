@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aurum-Cocoa | Gold & Cocoa Investments</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#090604;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(212,170,70,.13),transparent 30%),
+        radial-gradient(circle at 80% 70%,rgba(101,48,18,.20),transparent 35%);
+    pointer-events:none;
+    z-index:-2;
+}
+
+.particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:#d9ad45;
+    border-radius:50%;
+    box-shadow:0 0 12px #d9ad45;
+    animation:float 8s infinite ease-in-out;
+    opacity:.5;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0) translateX(0);
+        opacity:.2;
+    }
+    50%{
+        transform:translateY(-80px) translateX(30px);
+        opacity:1;
+    }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(18px);
+    background:rgba(9,6,4,.85);
+    border-bottom:1px solid rgba(218,175,75,.18);
+}
+
+.navbar{
+    max-width:1200px;
+    margin:auto;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#d8ad47;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+nav a{
+    color:#ddd;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#e4b94f;
+}
+
+.nav-login{
+    padding:10px 18px;
+    border:1px solid #b98b32;
+    border-radius:25px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:650px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    position:relative;
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 17px;
+    border:1px solid rgba(220,177,72,.5);
+    border-radius:30px;
+    color:#e4bc5d;
+    font-size:12px;
+    letter-spacing:2px;
+    margin-bottom:25px;
+    background:rgba(214,170,62,.06);
+}
+
+.hero h1{
+    font-size:clamp(45px,8vw,90px);
+    line-height:.95;
+    margin-bottom:25px;
+    background:linear-gradient(
+        120deg,
+        #fff5c8,
+        #d9a93d,
+        #fff0a8,
+        #9c681d
+    );
+    -webkit-background-clip:text;
+    color:transparent;
+    background-size:250% auto;
+    animation:goldMove 5s linear infinite;
+}
+
+@keyframes goldMove{
+    to{
+        background-position:250% center;
+    }
+}
+
+.hero p{
+    max-width:650px;
+    margin:auto;
+    color:#b9b1a7;
+    line-height:1.8;
+    font-size:16px;
+}
+
+.hero-buttons{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:15px 28px;
+    border-radius:30px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-gold{
+    background:linear-gradient(135deg,#f5d477,#9f6b1f);
+    color:#140d04;
+    box-shadow:0 10px 35px rgba(218,171,63,.2);
+}
+
+.btn-gold:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 45px rgba(218,171,63,.4);
+}
+
+.btn-dark{
+    background:#17100c;
+    color:#fff;
+    border:1px solid #67481e;
+}
+
+.btn-dark:hover{
+    border-color:#d5a943;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 25px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-title h2{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.section-title p{
+    color:#9e958c;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.stat{
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.055),
+        rgba(86,43,17,.08)
+    );
+    border:1px solid rgba(215,169,67,.15);
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+    font-size:28px;
+    color:#e2b951;
+    margin-bottom:8px;
+}
+
+.stat span{
+    color:#999;
+    font-size:13px;
+}
+
+/* =========================
+   INVESTMENT CARDS
+========================= */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.product{
+    position:relative;
+    min-height:400px;
+    border-radius:28px;
+    overflow:hidden;
+    border:1px solid rgba(218,175,72,.22);
+    background:#120b07;
+    transition:.4s;
+}
+
+.product:hover{
+    transform:translateY(-8px);
+    border-color:#c99d3d;
+    box-shadow:0 25px 70px rgba(0,0,0,.6);
+}
+
+.product-image{
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.gold-image{
+    background:
+        radial-gradient(circle,#e6bd5c 0%,#7c511b 28%,#241609 65%,#100a05 100%);
+}
+
+.cocoa-image{
+    background:
+        radial-gradient(circle,#9a6332 0%,#4c2813 30%,#1c0e08 65%,#0b0604 100%);
+}
+
+.product-symbol{
+    font-size:80px;
+    filter:drop-shadow(0 15px 20px rgba(0,0,0,.5));
+    animation:bob 4s ease-in-out infinite;
+}
+
+@keyframes bob{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+}
+
+.product-body{
+    padding:25px;
+}
+
+.product-body h3{
+    font-size:25px;
+    color:#e5bd5c;
+    margin-bottom:10px;
+}
+
+.product-body p{
+    color:#999;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.price{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.price strong{
+    color:#fff;
+}
+
+.price span{
+    color:#d8ad47;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.feature{
+    background:#110b08;
+    border:1px solid rgba(210,166,64,.13);
+    border-radius:18px;
+    padding:25px;
+}
+
+.feature-icon{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.feature h3{
+    margin-bottom:8px;
+}
+
+.feature p{
+    color:#938a82;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* =========================
+   AUTH MODAL
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(12px);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.auth-box{
+    width:100%;
+    max-width:450px;
+    background:
+        linear-gradient(
+            145deg,
+            #1a1009,
+            #0d0906
+        );
+    border:1px solid rgba(220,175,70,.35);
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+    animation:modalIn .4s ease;
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(30px) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.close{
+    float:right;
+    font-size:25px;
+    color:#aaa;
+    cursor:pointer;
+}
+
+.auth-logo{
+    color:#e1b64f;
+    font-size:25px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-bottom:10px;
+}
+
+.auth-box h2{
+    margin-bottom:8px;
+}
+
+.auth-box .subtitle{
+    color:#888;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:17px;
+}
+
+.input-group label{
+    display:block;
+    color:#aaa;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #49341c;
+    background:#0b0806;
+    color:#fff;
+    outline:none;
+}
+
+.input-group input:focus{
+    border-color:#d6a943;
+}
+
+.auth-submit{
+    width:100%;
+    margin-top:5px;
+}
+
+.switch{
+    text-align:center;
+    margin-top:20px;
+    color:#777;
+    font-size:13px;
+}
+
+.switch button{
+    background:none;
+    border:none;
+    color:#d9ad48;
+    cursor:pointer;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+    display:none;
+    min-height:100vh;
+    background:#090604;
+}
+
+.dashboard.active{
+    display:block;
+}
+
+.dashboard-top{
+    padding:25px;
+    border-bottom:1px solid rgba(216,170,67,.15);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.dashboard-content{
+    max-width:1200px;
+    margin:auto;
+    padding:35px 25px 100px;
+}
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome small{
+    color:#8e857c;
+}
+
+.welcome h1{
+    margin-top:6px;
+}
+
+.balance-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.balance-card{
+    padding:25px;
+    border-radius:20px;
+    background:linear-gradient(145deg,#1c1108,#0e0906);
+    border:1px solid rgba(218,175,71,.18);
+}
+
+.balance-card span{
+    color:#888;
+    font-size:12px;
+}
+
+.balance-card strong{
+    display:block;
+    color:#e4ba54;
+    font-size:27px;
+    margin-top:10px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:35px;
+}
+
+.action{
+    padding:20px;
+    background:#130c08;
+    border:1px solid #302015;
+    border-radius:16px;
+    color:#fff;
+    cursor:pointer;
+    text-align:center;
+    transition:.3s;
+}
+
+.action:hover{
+    border-color:#c99d3e;
+    transform:translateY(-3px);
+}
+
+.dashboard-section{
+    background:#110b08;
+    border:1px solid rgba(210,165,63,.12);
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.dashboard-section h2{
+    margin-bottom:20px;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:#777;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid rgba(218,175,71,.12);
+    padding:40px 25px;
+    text-align:center;
+    color:#756d66;
+    font-size:13px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:800px){
+
+    nav{
+        display:none;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .balance-grid{
+        grid-template-columns:1fr;
+    }
+
+    .actions{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:500px){
+
+    .hero{
+        min-height:600px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .auth-box{
+        padding:25px;
+    }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<div class="particles">
+    <span class="particle" style="left:10%;top:30%;animation-delay:0s"></span>
+    <span class="particle" style="left:25%;top:70%;animation-delay:2s"></span>
+    <span class="particle" style="left:45%;top:20%;animation-delay:1s"></span>
+    <span class="particle" style="left:65%;top:65%;animation-delay:3s"></span>
+    <span class="particle" style="left:80%;top:30%;animation-delay:1.5s"></span>
+    <span class="particle" style="left:90%;top:75%;animation-delay:4s"></span>
+</div>
+
+
+<!-- =========================
+     LANDING PAGE
+========================= -->
+
+<div id="landingPage">
+
+<header>
+    <div class="navbar">
+
+        <div class="logo">
+            AURUM<span>-COCOA</span>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Investments</a>
+            <a href="#features">How It Works</a>
+            <a href="#about">About</a>
+
+            <a href="#" class="nav-login"
+               onclick="openLogin();return false;">
+               Sign In
+            </a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main id="home">
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            GOLD • COCOA • WEALTH
+        </div>
+
+        <h1>
+            Grow With<br>
+            Gold & Cocoa
+        </h1>
+
+        <p>
+            A premium investment platform designed around
+            Ghana's gold and cocoa opportunities.
+            Start from GH₵20 and manage your investments
+            from one secure dashboard.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="btn btn-gold"
+                    onclick="openSignup()">
+                Start Investing
+            </button>
+
+            <button class="btn btn-dark"
+                    onclick="document.getElementById('products')
+                    .scrollIntoView()">
+                Explore Plans
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section>
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong>GH₵20</strong>
+            <span>Minimum Investment</span>
+        </div>
+
+        <div class="stat">
+            <strong>GH₵10,000</strong>
+            <span>Maximum Investment</span>
+        </div>
+
+        <div class="stat">
+            <strong>30 Days</strong>
+            <span>Minimum Withdrawal Period</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="products">
+
+    <div class="section-title">
+
+        <h2>Investment Opportunities</h2>
+
+        <p>
+            Choose between Gold and Cocoa investment opportunities.
+        </p>
+
+    </div>
+
+
+    <div class="products">
+
+        <!-- GOLD -->
+
+        <div class="product">
+
+            <div class="product-image gold-image">
+
+                <div class="product-symbol">
+                    🪙
+                </div>
+
+            </div>
+
+            <div class="product-body">
+
+                <h3>Gold</h3>
+
+                <p>
+                    Build your portfolio around one of the world's
+                    most recognized precious metals.
+                </p>
+
+                <div class="price">
+
+                    <strong>
+                        GH₵20 – GH₵10,000
+                    </strong>
+
+                    <span>
+                        Gold
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COCOA -->
+
+        <div class="product">
+
+            <div class="product-image cocoa-image">
+
+                <div class="product-symbol">
+                    🍫
+                </div>
+
+            </div>
+
+            <div class="product-body">
+
+                <h3>Cocoa</h3>
+
+                <p>
+                    Participate in an investment concept inspired
+                    by Ghana's globally important cocoa industry.
+                </p>
+
+                <div class="price">
+
+                    <strong>
+                        GH₵20 – GH₵10,000
+                    </strong>
+
+                    <span>
+                        Cocoa
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section id="features">
+
+    <div class="section-title">
+
+        <h2>Built For Simplicity</h2>
+
+        <p>
+            Everything you need in one dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">💳</div>
+
+            <h3>Paystack Deposits</h3>
+
+            <p>
+                Deposits will be processed through Paystack
+                with payment confirmation.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">📊</div>
+
+            <h3>Investment Tracking</h3>
+
+            <p>
+                View your active investments, balances,
+                earnings and payment history.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🔐</div>
+
+            <h3>Secure Account</h3>
+
+            <p>
+                Your account and investment records will be
+                connected to your secure backend.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">💰</div>
+
+            <h3>Manual Withdrawal</h3>
+
+            <p>
+                Withdrawal requests are reviewed and approved
+                manually by the administrator.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="about">
+
+    <div class="section-title">
+
+        <h2>Aurum-Cocoa</h2>
+
+        <p>
+            A modern gold and cocoa investment experience.
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    © 2026 Aurum-Cocoa.
+    All rights reserved.
+
+</footer>
+
+</div>
+
+
+<!-- =========================
+     LOGIN / SIGNUP MODAL
+========================= -->
+
+<div class="modal" id="authModal">
+
+    <div class="auth-box">
+
+        <span class="close"
+              onclick="closeAuth()">
+            ×
+        </span>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginView">
+
+            <div class="auth-logo">
+                AURUM-COCOA
+            </div>
+
+            <h2>Welcome back</h2>
+
+            <p class="subtitle">
+                Access your investment dashboard.
+            </p>
+
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password">
+
+            </div>
+
+
+            <button class="btn btn-gold auth-submit"
+                    onclick="login()">
+
+                Enter Dashboard →
+
+            </button>
+
+
+            <div class="switch">
+
+                Don't have an account?
+
+                <button onclick="showSignup()">
+                    Create one
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIGNUP -->
+
+        <div id="signupView" style="display:none">
+
+            <div class="auth-logo">
+                AURUM-COCOA
+            </div>
+
+            <h2>Create your account</h2>
+
+            <p class="subtitle">
+                Start your investment journey.
+            </p>
+
+
+            <div class="input-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Your full name">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="Enter your email">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Create a password">
+
+            </div>
+
+
+            <button class="btn btn-gold auth-submit"
+                    onclick="signup()">
+
+                Create Account →
+
+            </button>
+
+
+            <div class="switch">
+
+                Already have an account?
+
+                <button onclick="showLogin()">
+                    Sign in
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<div class="dashboard" id="dashboard">
+
+    <div class="dashboard-top">
+
+        <div class="logo">
+            AURUM<span>-COCOA</span>
+        </div>
+
+        <button class="btn btn-dark"
+                onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+
+    <div class="dashboard-content">
+
+        <div class="welcome">
+
+            <small>Investment Dashboard</small>
+
+            <h1>
+                Welcome, Investor
+            </h1>
+
+        </div>
+
+
+        <!-- BALANCES -->
+
+        <div class="balance-grid">
+
+            <div class="balance-card">
+
+                <span>Available Balance</span>
+
+                <strong>
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="balance-card">
+
+                <span>Total Investments</span>
+
+                <strong>
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="balance-card">
+
+                <span>Total Earnings</span>
+
+                <strong>
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <div class="action"
+                 onclick="alert('Paystack deposit will be connected next.')">
+
+                💳<br><br>
+                Deposit
+
+            </div>
+
+
+            <div class="action"
+                 onclick="alert('Withdrawal requests will be manually reviewed.')">
+
+                💰<br><br>
+                Withdraw
+
+            </div>
+
+
+            <div class="action">
+
+                📊<br><br>
+                My Investments
+
+            </div>
+
+
+            <div class="action">
+
+                🧾<br><br>
+                Payment Records
+
+            </div>
+
+        </div>
+
+
+        <!-- INVESTMENTS -->
+
+        <div class="dashboard-section">
+
+            <h2>
+                My Investments
+            </h2>
+
+            <div class="empty">
+
+                You don't have any active investments yet.
+
+            </div>
+
+        </div>
+
+
+        <!-- WITHDRAWALS -->
+
+        <div class="dashboard-section">
+
+            <h2>
+                Withdrawal Requests
+            </h2>
+
+            <div class="empty">
+
+                No withdrawal requests yet.
+
+                <br><br>
+
+                Withdrawals will be manually reviewed
+                and approved by the administrator.
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT HISTORY -->
+
+        <div class="dashboard-section">
+
+            <h2>
+                Payment History
+            </h2>
+
+            <div class="empty">
+
+                No payment records yet.
+
+                <br><br>
+
+                Confirmed Paystack transactions
+                will appear here.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+const SUPABASE_URL =
+    "https://bpwmgsgiqbnhacykteno.supabase.co";
+
+const SUPABASE_KEY = 
+"sb_publishable_Y00ypeSVswJKhpRmqzALNw_9ycA6Xf7";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================
+   AUTH ELEMENTS
+========================================= */
+
+const authModal =
+    document.getElementById("authModal");
+
+const loginView =
+    document.getElementById("loginView");
+
+const signupView =
+    document.getElementById("signupView");
+
+
+/* =========================================
+   OPEN LOGIN
+========================================= */
+
+function openLogin(){
+
+    authModal.classList.add("active");
+
+    loginView.style.display = "block";
+
+    signupView.style.display = "none";
+}
+
+
+/* =========================================
+   OPEN SIGNUP
+========================================= */
+
+function openSignup(){
+
+    authModal.classList.add("active");
+
+    loginView.style.display = "none";
+
+    signupView.style.display = "block";
+}
+
+
+/* =========================================
+   CLOSE AUTH
+========================================= */
+
+function closeAuth(){
+
+    authModal.classList.remove("active");
+}
+
+
+function showSignup(){
+
+    loginView.style.display = "none";
+
+    signupView.style.display = "block";
+}
+
+
+function showLogin(){
+
+    signupView.style.display = "none";
+
+    loginView.style.display = "block";
+}
+
+
+/* =========================================
+   CREATE ACCOUNT
+========================================= */
+
+async function signup(){
+
+    const name =
+        document.getElementById("signupName")
+        .value.trim();
+
+    const email =
+        document.getElementById("signupEmail")
+        .value.trim();
+
+    const password =
+        document.getElementById("signupPassword")
+        .value.trim();
+
+
+    if(!name || !email || !password){
+
+        alert("Please complete all fields.");
+
+        return;
+    }
+
+
+    if(password.length < 6){
+
+        alert("Password must contain at least 6 characters.");
+
+        return;
+    }
+
+
+    const { data, error } =
+        await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+                data: {
+                    full_name: name
+                }
+
+            }
+
+        });
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    alert(
+        "Account created successfully. Check your email if confirmation is required."
+    );
+
+
+    showLogin();
+
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+async function login(){
+
+    const email =
+        document.getElementById("loginEmail")
+        .value.trim();
+
+    const password =
+        document.getElementById("loginPassword")
+        .value.trim();
+
+
+    if(!email || !password){
+
+        alert(
+            "Please enter your email and password."
+        );
+
+        return;
+    }
+
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    enterDashboard(data.user);
+
+}
+
+
+/* =========================================
+   ENTER DASHBOARD
+========================================= */
+
+function enterDashboard(user){
+
+    authModal.classList.remove("active");
+
+
+    document.getElementById("landingPage")
+        .style.display = "none";
+
+
+    document.getElementById("dashboard")
+        .classList.add("active");
+
+
+    const name =
+        user?.user_metadata?.full_name ||
+        user?.email?.split("@")[0] ||
+        "Investor";
+
+
+    document.querySelector(
+        ".welcome h1"
+    ).textContent =
+        "Welcome, " + name;
+
+
+    window.scrollTo(0,0);
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+
+    document.getElementById("dashboard")
+        .classList.remove("active");
+
+
+    document.getElementById("landingPage")
+        .style.display = "block";
+
+
+    window.scrollTo(0,0);
+}
+
+
+/* =========================================
+   CHECK EXISTING LOGIN
+========================================= */
+
+async function checkUser(){
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if(session){
+
+        enterDashboard(session.user);
+
+    }
+
+}
+
+
+/* =========================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================= */
+
+authModal.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === authModal){
+
+            closeAuth();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   START
+========================================= */
+
+checkUser();
+
+</script>
+</body>
+</html>
