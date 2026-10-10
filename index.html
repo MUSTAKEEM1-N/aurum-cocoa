@@ -10,3 +10,5793 @@
 <meta name="description"
       content="Aurum-Cocoa — a modern Gold and Cocoa investment platform.">
 
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:#070403;
+    color:#fff;
+
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none !important;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+
+    --gold:#d9ad48;
+    --gold-light:#f8e5a1;
+    --gold-dark:#8d5e1b;
+
+    --cocoa:#6b3519;
+    --cocoa-dark:#241006;
+
+    --bg:#070403;
+    --panel:#100906;
+    --panel2:#160c07;
+
+    --text:#fff;
+    --muted:#968c83;
+
+    --border:rgba(218,175,71,.18);
+
+    --success:#65d391;
+    --danger:#ef6a6a;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-10;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(218,173,67,.14),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 85% 70%,
+            rgba(104,48,20,.20),
+            transparent 34%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(180,112,31,.08),
+            transparent 35%
+        );
+}
+
+
+.grid-background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-9;
+
+    pointer-events:none;
+
+    opacity:.15;
+
+    background-image:
+
+        linear-gradient(
+            rgba(216,172,68,.08) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(216,172,68,.08) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        70px 70px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 90%
+        );
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles{
+    position:fixed;
+    inset:0;
+    z-index:-8;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.particle{
+
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:var(--gold);
+
+    box-shadow:
+        0 0 12px var(--gold);
+
+    opacity:.4;
+
+    animation:
+        particleFloat
+        var(--duration)
+        infinite
+        ease-in-out;
+
+    animation-delay:
+        var(--delay);
+}
+
+@keyframes particleFloat{
+
+    0%,100%{
+        transform:
+            translate3d(0,0,0);
+
+        opacity:.15;
+    }
+
+    50%{
+        transform:
+            translate3d(
+                30px,
+                -100px,
+                0
+            );
+
+        opacity:.9;
+    }
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+
+    z-index:1000;
+
+    background:
+        rgba(7,4,3,.76);
+
+    backdrop-filter:
+        blur(20px);
+
+    border-bottom:
+        1px solid
+        rgba(218,175,71,.12);
+}
+
+.navbar{
+
+    max-width:1250px;
+
+    margin:auto;
+
+    min-height:76px;
+
+    padding:
+        0 25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.logo{
+
+    color:#fff;
+
+    font-size:21px;
+
+    font-weight:800;
+
+    letter-spacing:3px;
+
+    white-space:nowrap;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+}
+
+.nav-links a{
+
+    color:#b9b0a8;
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:var(--gold-light);
+}
+
+.nav-login{
+
+    padding:
+        10px 18px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.45);
+
+    border-radius:30px;
+
+    color:#fff !important;
+}
+
+.menu-button{
+
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:12px;
+
+    background:#120a06;
+
+    color:#fff;
+
+    font-size:20px;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-menu{
+
+    display:none;
+
+    position:absolute;
+
+    top:76px;
+    left:15px;
+    right:15px;
+
+    padding:18px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:
+        rgba(16,9,6,.97);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.6);
+}
+
+.mobile-menu.active{
+    display:block;
+}
+
+.mobile-menu a{
+
+    display:block;
+
+    padding:14px;
+
+    color:#ddd;
+
+    text-decoration:none;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.05);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+    border:none;
+
+    border-radius:30px;
+
+    padding:
+        14px 23px;
+
+    font-weight:700;
+
+    transition:
+        transform .25s,
+        box-shadow .25s,
+        border-color .25s;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn:disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+.btn-gold{
+
+    color:#150d04;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff0ad,
+            #d6a43c,
+            #8d5d19
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(216,168,60,.18);
+}
+
+.btn-gold:hover{
+
+    box-shadow:
+        0 18px 50px
+        rgba(216,168,60,.34);
+}
+
+.btn-dark{
+
+    color:#fff;
+
+    background:#130b07;
+
+    border:
+        1px solid
+        #4d351b;
+}
+
+.btn-dark:hover{
+    border-color:var(--gold);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    min-height:780px;
+
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:
+        150px 25px 100px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    position:relative;
+}
+
+.hero-orb{
+
+    position:absolute;
+
+    width:430px;
+    height:430px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(221,176,68,.14),
+            transparent 68%
+        );
+
+    filter:blur(4px);
+
+    animation:
+        orbPulse
+        5s
+        infinite
+        ease-in-out;
+}
+
+@keyframes orbPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.15);
+    }
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:900px;
+}
+
+.eyebrow{
+
+    display:inline-flex;
+
+    padding:
+        8px 17px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.35);
+
+    border-radius:30px;
+
+    background:
+        rgba(216,170,60,.05);
+
+    color:
+        var(--gold-light);
+
+    font-size:11px;
+
+    letter-spacing:2.5px;
+
+    margin-bottom:28px;
+}
+
+.hero h1{
+
+    font-size:
+        clamp(
+            52px,
+            9vw,
+            105px
+        );
+
+    line-height:.9;
+
+    letter-spacing:-4px;
+
+    margin-bottom:28px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #fff7d0,
+            #d8aa42,
+            #fff2ae,
+            #9b681f,
+            #fff3b6
+        );
+
+    background-size:300% auto;
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
+
+    animation:
+        goldText
+        7s
+        linear
+        infinite;
+}
+
+@keyframes goldText{
+
+    to{
+        background-position:
+            300% center;
+    }
+}
+
+.hero p{
+
+    max-width:680px;
+
+    margin:auto;
+
+    color:#aaa098;
+
+    line-height:1.8;
+
+    font-size:16px;
+}
+
+.hero-actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:14px;
+
+    flex-wrap:wrap;
+
+    margin-top:35px;
+}
+
+
+/* =========================================================
+   TRUST STRIP
+========================================================= */
+
+.trust-strip{
+
+    max-width:1100px;
+
+    margin:
+        -20px auto 0;
+
+    padding:
+        0 25px 70px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+}
+
+.trust-item{
+
+    padding:20px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(105,49,18,.05)
+        );
+
+    text-align:center;
+}
+
+.trust-item strong{
+
+    display:block;
+
+    color:var(--gold-light);
+
+    font-size:21px;
+
+    margin-bottom:6px;
+}
+
+.trust-item span{
+
+    color:#81776f;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.section{
+
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:
+        90px 25px;
+}
+
+.section-heading{
+
+    text-align:center;
+
+    max-width:700px;
+
+    margin:
+        0 auto 50px;
+}
+
+.section-heading .small{
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:11px;
+
+    font-weight:bold;
+}
+
+.section-heading h2{
+
+    margin-top:12px;
+
+    font-size:
+        clamp(
+            30px,
+            5vw,
+            48px
+        );
+
+    letter-spacing:-1px;
+}
+
+.section-heading p{
+
+    margin-top:14px;
+
+    color:#8e857e;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   INVESTMENT CARDS
+========================================================= */
+
+.investment-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:24px;
+}
+
+.investment-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:480px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:28px;
+
+    background:#100805;
+
+    transition:.4s;
+}
+
+.investment-card:hover{
+
+    transform:
+        translateY(-8px);
+
+    border-color:
+        rgba(218,175,71,.55);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.55);
+}
+
+.investment-visual{
+
+    height:245px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.gold-visual{
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #f4d879,
+            #9a681f 28%,
+            #3a230d 60%,
+            #100804
+        );
+}
+
+.cocoa-visual{
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #b7793c,
+            #673817 28%,
+            #30160a 60%,
+            #100604
+        );
+}
+
+.visual-icon{
+
+    font-size:105px;
+
+    filter:
+        drop-shadow(
+            0 25px 25px
+            rgba(0,0,0,.55)
+        );
+
+    animation:
+        iconFloat
+        4s
+        ease-in-out
+        infinite;
+}
+
+@keyframes iconFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+.visual-glow{
+
+    position:absolute;
+
+    width:250px;
+    height:250px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    box-shadow:
+        0 0 70px
+        rgba(255,220,130,.12);
+}
+
+.investment-body{
+
+    padding:28px;
+}
+
+.investment-body h3{
+
+    color:var(--gold-light);
+
+    font-size:27px;
+
+    margin-bottom:10px;
+}
+
+.investment-body p{
+
+    color:#8f857c;
+
+    line-height:1.65;
+
+    font-size:14px;
+}
+
+.investment-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-top:23px;
+
+    padding-top:18px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.investment-range{
+
+    color:#fff;
+
+    font-weight:bold;
+}
+
+.investment-range small{
+
+    display:block;
+
+    color:#766d65;
+
+    font-weight:normal;
+
+    margin-top:5px;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:16px;
+}
+
+.feature-card{
+
+    padding:25px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.13);
+
+    border-radius:20px;
+
+    background:#100805;
+}
+
+.feature-icon{
+
+    width:48px;
+    height:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:
+        rgba(218,175,71,.08);
+
+    border:
+        1px solid
+        rgba(218,175,71,.15);
+
+    font-size:22px;
+
+    margin-bottom:18px;
+}
+
+.feature-card h3{
+
+    margin-bottom:9px;
+
+    font-size:17px;
+}
+
+.feature-card p{
+
+    color:#80766e;
+
+    font-size:13px;
+
+    line-height:1.65;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:18px;
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.13);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(94,43,17,.04)
+        );
+}
+
+.step-number{
+
+    color:var(--gold);
+
+    font-size:12px;
+
+    letter-spacing:2px;
+
+    margin-bottom:18px;
+}
+
+.step h3{
+
+    margin-bottom:9px;
+}
+
+.step p{
+
+    color:#817870;
+
+    font-size:13px;
+
+    line-height:1.65;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-box{
+
+    display:grid;
+
+    grid-template-columns:
+        1.1fr .9fr;
+
+    gap:30px;
+
+    align-items:center;
+
+    padding:45px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #160c07,
+            #0c0604
+        );
+}
+
+.about-box h2{
+
+    font-size:40px;
+
+    margin-bottom:16px;
+}
+
+.about-box p{
+
+    color:#91877f;
+
+    line-height:1.8;
+
+    margin-bottom:18px;
+}
+
+.about-stat{
+
+    padding:30px;
+
+    border-radius:22px;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(218,175,71,.12),
+            transparent 60%
+        );
+
+    border:
+        1px solid
+        rgba(218,175,71,.15);
+
+    text-align:center;
+}
+
+.about-stat strong{
+
+    display:block;
+
+    font-size:50px;
+
+    color:var(--gold-light);
+
+    margin-bottom:8px;
+}
+
+.about-stat span{
+
+    color:#82776e;
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:
+        45px 25px;
+
+    border-top:
+        1px solid
+        rgba(218,175,71,.10);
+
+    text-align:center;
+
+    color:#655d57;
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:3000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.83);
+
+    backdrop-filter:
+        blur(14px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+
+    width:100%;
+
+    max-width:460px;
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y:auto;
+
+    padding:34px;
+
+    border-radius:25px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.30);
+
+    background:
+        linear-gradient(
+            145deg,
+            #1a0e07,
+            #0b0604
+        );
+
+    box-shadow:
+        0 35px 100px
+        rgba(0,0,0,.7);
+
+    animation:
+        modalIn
+        .3s
+        ease;
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(20px)
+            scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.modal-close{
+
+    float:right;
+
+    width:35px;
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:#aaa;
+
+    font-size:20px;
+}
+
+.modal-close:hover{
+    color:#fff;
+}
+
+.modal-logo{
+
+    color:var(--gold);
+
+    letter-spacing:2px;
+
+    font-weight:bold;
+
+    font-size:19px;
+
+    margin-bottom:12px;
+}
+
+.modal-box h2{
+
+    font-size:27px;
+
+    margin-bottom:7px;
+}
+
+.modal-subtitle{
+
+    color:#81776f;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group{
+
+    margin-bottom:16px;
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#aaa098;
+
+    font-size:12px;
+}
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+
+    padding:14px;
+
+    color:#fff;
+
+    outline:none;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        #3b2816;
+
+    background:#090604;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:
+        var(--gold);
+}
+
+.full{
+    width:100%;
+}
+
+.form-switch{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    color:#716961;
+
+    font-size:13px;
+}
+
+.form-switch button{
+
+    border:none;
+
+    background:none;
+
+    color:var(--gold);
+
+    font-weight:bold;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message{
+
+    display:none;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    font-size:12px;
+
+    margin-bottom:15px;
+
+    line-height:1.5;
+}
+
+.message.show{
+    display:block;
+}
+
+.message.error{
+
+    color:#ffb0b0;
+
+    background:
+        rgba(239,106,106,.08);
+
+    border:
+        1px solid
+        rgba(239,106,106,.25);
+}
+
+.message.success{
+
+    color:#a8e9bd;
+
+    background:
+        rgba(101,211,145,.08);
+
+    border:
+        1px solid
+        rgba(101,211,145,.25);
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard{
+
+    display:none;
+
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            rgba(218,175,71,.08),
+            transparent 30%
+        ),
+        #070403;
+}
+
+.dashboard.active{
+    display:block;
+}
+
+.dashboard-header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
+
+    min-height:72px;
+
+    padding:
+        0 25px;
+
+    border-bottom:
+        1px solid
+        rgba(218,175,71,.12);
+
+    background:
+        rgba(7,4,3,.86);
+
+    backdrop-filter:
+        blur(18px);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.dashboard-main{
+
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:
+        40px 25px 100px;
+}
+
+.dashboard-welcome{
+
+    margin-bottom:28px;
+}
+
+.dashboard-welcome small{
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+}
+
+.dashboard-welcome h1{
+
+    margin-top:8px;
+
+    font-size:
+        clamp(
+            30px,
+            5vw,
+            44px
+        );
+}
+
+.dashboard-welcome p{
+
+    color:#766d66;
+
+    margin-top:7px;
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   BALANCE CARDS
+========================================================= */
+
+.balance-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:17px;
+
+    margin-bottom:25px;
+}
+
+.balance-card{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.16);
+
+    background:
+        linear-gradient(
+            145deg,
+            #190e07,
+            #0c0705
+        );
+}
+
+.balance-card span{
+
+    color:#7e756d;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+.balance-card strong{
+
+    display:block;
+
+    color:var(--gold-light);
+
+    font-size:27px;
+
+    margin-top:12px;
+}
+
+
+/* =========================================================
+   DASHBOARD ACTIONS
+========================================================= */
+
+.dashboard-actions{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:25px;
+}
+
+.dashboard-action{
+
+    padding:19px;
+
+    text-align:center;
+
+    border-radius:16px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.12);
+
+    background:#100805;
+
+    transition:.25s;
+}
+
+.dashboard-action:hover{
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(218,175,71,.45);
+}
+
+.dashboard-action .icon{
+
+    font-size:24px;
+
+    margin-bottom:9px;
+}
+
+.dashboard-action span{
+
+    display:block;
+
+    color:#bbb2aa;
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   DASHBOARD SECTIONS
+========================================================= */
+
+.dashboard-section{
+
+    margin-bottom:20px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.12);
+
+    background:#100805;
+}
+
+.section-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:20px;
+}
+
+.section-top h2{
+
+    font-size:20px;
+}
+
+.empty{
+
+    padding:35px 15px;
+
+    text-align:center;
+
+    color:#6f6760;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   RECORD CARDS
+========================================================= */
+
+.record{
+
+    padding:18px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:15px;
+
+    background:#0b0604;
+
+    margin-bottom:12px;
+}
+
+.record:last-child{
+    margin-bottom:0;
+}
+
+.record-main{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.record-title{
+
+    color:var(--gold-light);
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+}
+
+.record-meta{
+
+    color:#716860;
+
+    font-size:11px;
+}
+
+.record-amount{
+
+    color:#fff;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    text-align:right;
+}
+
+.record-status{
+
+    color:var(--success);
+
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+.record-extra{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin-top:14px;
+
+    padding-top:12px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.05);
+
+    color:#777;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   WITHDRAWAL
+========================================================= */
+
+.withdrawal-info{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.12);
+
+    background:
+        rgba(218,175,71,.025);
+
+    color:#81776f;
+
+    font-size:13px;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   REFERRAL
+========================================================= */
+
+.referral-box{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    gap:15px;
+
+    align-items:center;
+}
+
+.referral-code{
+
+    padding:16px;
+
+    border-radius:12px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.15);
+
+    background:#090604;
+
+    color:var(--gold-light);
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(4,2,1,.88);
+
+    backdrop-filter:
+        blur(10px);
+}
+
+.loader-overlay.active{
+    display:flex;
+}
+
+.loader{
+
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        rgba(218,175,71,.15);
+
+    border-top-color:
+        var(--gold);
+
+    animation:
+        spin
+        .8s
+        linear
+        infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    z-index:6000;
+
+    right:22px;
+
+    bottom:22px;
+
+    max-width:360px;
+
+    padding:15px 18px;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(218,175,71,.25);
+
+    background:
+        rgba(18,10,6,.96);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.55);
+
+    color:#ddd;
+
+    font-size:13px;
+
+    transform:
+        translateY(120px);
+
+    opacity:0;
+
+    transition:.35s;
+}
+
+.toast.show{
+
+    transform:
+        translateY(0);
+
+    opacity:1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .menu-button{
+        display:block;
+    }
+
+    .trust-strip{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .features-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .steps{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .balance-grid{
+        grid-template-columns:
+            1fr;
+    }
+
+    .dashboard-actions{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .about-box{
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media(max-width:650px){
+
+    .hero{
+        min-height:690px;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .investment-grid{
+        grid-template-columns:
+            1fr;
+    }
+
+    .trust-strip{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .features-grid{
+        grid-template-columns:
+            1fr;
+    }
+
+    .steps{
+        grid-template-columns:
+            1fr;
+    }
+
+    .about-box{
+        padding:28px;
+    }
+
+    .about-box h2{
+        font-size:31px;
+    }
+
+    .dashboard-actions{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .modal-box{
+        padding:25px;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .navbar{
+        padding:
+            0 16px;
+    }
+
+    .logo{
+        font-size:17px;
+        letter-spacing:2px;
+    }
+
+    .section{
+        padding:
+            70px 17px;
+    }
+
+    .hero{
+        padding:
+            135px 17px 80px;
+    }
+
+    .trust-strip{
+        padding-left:17px;
+        padding-right:17px;
+    }
+
+    .trust-item{
+        padding:15px 8px;
+    }
+
+    .trust-item strong{
+        font-size:17px;
+    }
+
+    .dashboard-header{
+        padding:
+            0 16px;
+    }
+
+    .dashboard-main{
+        padding:
+            30px 16px 80px;
+    }
+
+}
+
+</style>
+
+<!-- =========================================================
+     EXTERNAL LIBRARIES
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="https://js.paystack.co/v2/inline.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="grid-background"></div>
+
+
+<!-- =========================================================
+     PARTICLES
+========================================================= -->
+
+<div class="particles">
+
+    <span class="particle"
+          style="left:8%;top:30%;--duration:7s;--delay:0s"></span>
+
+    <span class="particle"
+          style="left:18%;top:70%;--duration:9s;--delay:1s"></span>
+
+    <span class="particle"
+          style="left:32%;top:18%;--duration:8s;--delay:2s"></span>
+
+    <span class="particle"
+          style="left:47%;top:65%;--duration:10s;--delay:1s"></span>
+
+    <span class="particle"
+          style="left:61%;top:25%;--duration:7s;--delay:3s"></span>
+
+    <span class="particle"
+          style="left:74%;top:72%;--duration:9s;--delay:2s"></span>
+
+    <span class="particle"
+          style="left:87%;top:35%;--duration:8s;--delay:4s"></span>
+
+    <span class="particle"
+          style="left:94%;top:80%;--duration:10s;--delay:1s"></span>
+
+</div>
+
+
+<!-- =========================================================
+     LANDING PAGE
+========================================================= -->
+
+<div id="landingPage">
+
+
+<header class="site-header">
+
+    <div class="navbar">
+
+        <div class="logo">
+            AURUM<span>-COCOA</span>
+        </div>
+
+
+        <nav class="nav-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#investments">
+                Investments
+            </a>
+
+            <a href="#how">
+                How It Works
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#"
+               class="nav-login"
+               onclick="openLogin();return false;">
+
+                Sign In
+
+            </a>
+
+        </nav>
+
+
+        <button
+            class="menu-button"
+            onclick="toggleMobileMenu()">
+
+            ☰
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu">
+
+        <a href="#home"
+           onclick="closeMobileMenu()">
+
+            Home
+
+        </a>
+
+        <a href="#investments"
+           onclick="closeMobileMenu()">
+
+            Investments
+
+        </a>
+
+        <a href="#how"
+           onclick="closeMobileMenu()">
+
+            How It Works
+
+        </a>
+
+        <a href="#about"
+           onclick="closeMobileMenu()">
+
+            About
+
+        </a>
+
+        <a href="#"
+           onclick="openLogin();closeMobileMenu();return false;">
+
+            Sign In
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+    class="hero"
+    id="home">
+
+    <div class="hero-orb"></div>
+
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+
+            GOLD • COCOA • WEALTH
+
+        </div>
+
+
+        <h1>
+
+            Grow With<br>
+            Gold & Cocoa
+
+        </h1>
+
+
+        <p>
+
+            Aurum-Cocoa brings Gold and Cocoa investment
+            opportunities into one modern dashboard.
+            Start from GH₵20 and manage your investments
+            from anywhere.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <button
+                class="btn btn-gold"
+                onclick="openSignup()">
+
+                Start Investing →
+
+            </button>
+
+
+            <button
+                class="btn btn-dark"
+                onclick="
+                    document
+                    .getElementById('investments')
+                    .scrollIntoView({
+                        behavior:'smooth'
+                    });
+                ">
+
+                Explore Investments
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TRUST STRIP
+========================================================= -->
+
+<div class="trust-strip">
+
+    <div class="trust-item">
+
+        <strong>
+            GH₵20
+        </strong>
+
+        <span>
+            Minimum Investment
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            GH₵10K
+        </strong>
+
+        <span>
+            Maximum Investment
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            30 Days
+        </strong>
+
+        <span>
+            Maturity Period
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            Paystack
+        </strong>
+
+        <span>
+            Payment Processing
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     INVESTMENTS
+========================================================= -->
+
+<section
+    class="section"
+    id="investments">
+
+    <div class="section-heading">
+
+        <div class="small">
+            Opportunities
+        </div>
+
+        <h2>
+            Choose Your Investment
+        </h2>
+
+        <p>
+            Select Gold or Cocoa and begin with an amount
+            between GH₵20 and GH₵10,000.
+        </p>
+
+    </div>
+
+
+    <div class="investment-grid">
+
+
+        <!-- GOLD -->
+
+        <div class="investment-card">
+
+            <div
+                class="investment-visual gold-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="visual-icon">
+                    🪙
+                </div>
+
+            </div>
+
+
+            <div class="investment-body">
+
+                <h3>
+                    Gold
+                </h3>
+
+                <p>
+
+                    Build your investment portfolio around
+                    the value and global recognition of gold.
+
+                </p>
+
+
+                <div class="investment-bottom">
+
+                    <div class="investment-range">
+
+                        GH₵20 – GH₵10,000
+
+                        <small>
+                            Investment range
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-gold"
+                        onclick="openDeposit('Gold')">
+
+                        Invest
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COCOA -->
+
+        <div class="investment-card">
+
+            <div
+                class="investment-visual cocoa-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="visual-icon">
+                    🍫
+                </div>
+
+            </div>
+
+
+            <div class="investment-body">
+
+                <h3>
+                    Cocoa
+                </h3>
+
+                <p>
+
+                    Participate in an investment concept
+                    inspired by Ghana's important cocoa industry.
+
+                </p>
+
+
+                <div class="investment-bottom">
+
+                    <div class="investment-range">
+
+                        GH₵20 – GH₵10,000
+
+                        <small>
+                            Investment range
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-gold"
+                        onclick="openDeposit('Cocoa')">
+
+                        Invest
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURES
+========================================================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="small">
+            Platform
+        </div>
+
+        <h2>
+            Everything In One Place
+        </h2>
+
+        <p>
+            Manage your account, investments and payment
+            records from your personal dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="features-grid">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                💳
+            </div>
+
+            <h3>
+                Paystack Payments
+            </h3>
+
+            <p>
+                Payments are initiated through Paystack
+                and verified by the secure backend.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            <h3>
+                Investment Tracking
+            </h3>
+
+            <p>
+                View your investments, amounts, dates,
+                status and maturity information.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+            <h3>
+                Supabase Accounts
+            </h3>
+
+            <p>
+                Your login and account information are
+                managed through Supabase authentication.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                💰
+            </div>
+
+            <h3>
+                Withdrawal Requests
+            </h3>
+
+            <p>
+                Eligible withdrawal requests can be
+                submitted for administrator review.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section
+    class="section"
+    id="how">
+
+    <div class="section-heading">
+
+        <div class="small">
+            Simple Process
+        </div>
+
+        <h2>
+            How Aurum-Cocoa Works
+        </h2>
+
+    </div>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                STEP 01
+            </div>
+
+            <h3>
+                Create Account
+            </h3>
+
+            <p>
+                Register using your email address
+                and create your secure account.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                STEP 02
+            </div>
+
+            <h3>
+                Choose Investment
+            </h3>
+
+            <p>
+                Select Gold or Cocoa and enter
+                your investment amount.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                STEP 03
+            </div>
+
+            <h3>
+                Make Payment
+            </h3>
+
+            <p>
+                Complete your payment securely
+                through Paystack.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                STEP 04
+            </div>
+
+            <h3>
+                Track Dashboard
+            </h3>
+
+            <p>
+                Your verified investment appears
+                inside your personal dashboard.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section
+    class="section"
+    id="about">
+
+    <div class="about-box">
+
+        <div>
+
+            <div class="section-heading"
+                 style="
+                    text-align:left;
+                    margin:0 0 20px;
+                 ">
+
+                <div class="small">
+                    About Aurum-Cocoa
+                </div>
+
+                <h2>
+                    A Modern Investment Experience
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Aurum-Cocoa is designed around a simple idea:
+                give investors a clean and modern way to manage
+                Gold and Cocoa investment records from one place.
+
+            </p>
+
+
+            <p>
+
+                All confirmed investment transactions are
+                verified through the payment backend before
+                being recorded in the user's account.
+
+            </p>
+
+        </div>
+
+
+        <div class="about-stat">
+
+            <strong>
+                30
+            </strong>
+
+            <span>
+                Days before standard investment maturity
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 Aurum-Cocoa.
+    All rights reserved.
+
+</footer>
+
+
+</div>
+
+
+<!-- =========================================================
+     AUTH MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="authModal">
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAuth()">
+
+            ×
+
+        </button>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginView">
+
+            <div class="modal-logo">
+                AURUM-COCOA
+            </div>
+
+            <h2>
+                Welcome back
+            </h2>
+
+            <p class="modal-subtitle">
+                Sign in to access your investment dashboard.
+            </p>
+
+
+            <div
+                id="loginMessage"
+                class="message">
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="you@example.com">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Your password">
+
+            </div>
+
+
+            <button
+                class="btn btn-gold full"
+                id="loginButton"
+                onclick="login()">
+
+                Enter Dashboard →
+
+            </button>
+
+
+            <div class="form-switch">
+
+                Don't have an account?
+
+                <button onclick="showSignup()">
+                    Create one
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIGNUP -->
+
+        <div
+            id="signupView"
+            style="display:none">
+
+            <div class="modal-logo">
+                AURUM-COCOA
+            </div>
+
+            <h2>
+                Create your account
+            </h2>
+
+            <p class="modal-subtitle">
+                Start your Aurum-Cocoa investment journey.
+            </p>
+
+
+            <div
+                id="signupMessage"
+                class="message">
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Your full name">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="you@example.com">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="At least 6 characters">
+
+            </div>
+
+
+            <button
+                class="btn btn-gold full"
+                id="signupButton"
+                onclick="signup()">
+
+                Create Account →
+
+            </button>
+
+
+            <div class="form-switch">
+
+                Already have an account?
+
+                <button onclick="showLogin()">
+                    Sign in
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DEPOSIT MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="depositModal">
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeDeposit()">
+
+            ×
+
+        </button>
+
+
+        <div class="modal-logo">
+            AURUM-COCOA
+        </div>
+
+
+        <h2>
+            Start Investment
+        </h2>
+
+
+        <p class="modal-subtitle">
+
+            Choose Gold or Cocoa and enter the amount
+            you want to invest.
+
+        </p>
+
+
+        <div
+            id="depositMessage"
+            class="message">
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Investment Type
+            </label>
+
+            <select id="investmentProduct">
+
+                <option value="Gold">
+                    Gold
+                </option>
+
+                <option value="Cocoa">
+                    Cocoa
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Amount (GH₵)
+            </label>
+
+            <input
+                type="number"
+                id="investmentAmount"
+                min="20"
+                max="10000"
+                step="0.01"
+                placeholder="20 - 10,000">
+
+        </div>
+
+
+        <div style="
+            padding:14px;
+            margin-bottom:18px;
+            border-radius:12px;
+            background:rgba(218,175,71,.045);
+            border:1px solid rgba(218,175,71,.10);
+            color:#857b72;
+            font-size:11px;
+            line-height:1.6;
+        ">
+
+            Minimum:
+            <strong style="color:#d9ad48">
+                GH₵20
+            </strong>
+
+            &nbsp;•&nbsp;
+
+            Maximum:
+            <strong style="color:#d9ad48">
+                GH₵10,000
+            </strong>
+
+        </div>
+
+
+        <button
+            class="btn btn-gold full"
+            id="paymentButton"
+            onclick="startPaystackPayment()">
+
+            Continue to Secure Payment →
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     WITHDRAWAL MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="withdrawModal">
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeWithdraw()">
+
+            ×
+
+        </button>
+
+
+        <div class="modal-logo">
+            AURUM-COCOA
+        </div>
+
+
+        <h2>
+            Withdrawal Request
+        </h2>
+
+
+        <p class="modal-subtitle">
+
+            Profit withdrawals may be requested after 15 days,
+            subject to eligible profit, available balance and administrator review.
+            Principal remains locked for 30 days.
+
+        </p>
+
+
+        <div
+            id="withdrawMessage"
+            class="message">
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Amount (GH₵)
+            </label>
+
+            <input
+                type="number"
+                id="withdrawAmount"
+                min="1"
+                step="0.01"
+                placeholder="Enter amount">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mobile Money Number
+            </label>
+
+            <input
+                type="tel"
+                id="withdrawPhone"
+                placeholder="e.g. 0240000000">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Network
+            </label>
+
+            <select id="withdrawNetwork">
+
+                <option value="MTN">
+                    MTN
+                </option>
+
+                <option value="Telecel">
+                    Telecel
+                </option>
+
+                <option value="AirtelTigo">
+                    AirtelTigo
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="btn btn-gold full"
+            onclick="submitWithdrawal()">
+
+            Submit Withdrawal Request
+
+        </button>
+
+
+        <div style="
+            margin-top:15px;
+            color:#70675f;
+            font-size:11px;
+            line-height:1.6;
+            text-align:center;
+        ">
+
+            Withdrawals are only available when your
+            investment is eligible for withdrawal.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<div
+    class="dashboard"
+    id="dashboard">
+
+
+    <header class="dashboard-header">
+
+        <div class="logo">
+            AURUM<span>-COCOA</span>
+        </div>
+
+
+        <button
+            class="btn btn-dark"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </header>
+
+
+    <main class="dashboard-main">
+
+
+        <!-- WELCOME -->
+
+        <div class="dashboard-welcome">
+
+            <small>
+                Investor Dashboard
+            </small>
+
+            <h1 id="dashboardWelcome">
+                Welcome, Investor
+            </h1>
+
+            <p>
+                Manage your investments and account.
+            </p>
+
+        </div>
+
+
+        <!-- BALANCES -->
+
+        <div class="balance-grid">
+
+
+            <div class="balance-card">
+
+                <span>
+                    Available Balance
+                </span>
+
+                <strong id="dashboardAvailableBalance">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="balance-card">
+
+                <span>
+                    Total Invested
+                </span>
+
+                <strong id="dashboardTotalInvested">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="balance-card">
+
+                <span>
+                    Total Earnings
+                </span>
+
+                <strong id="dashboardTotalEarnings">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="dashboard-actions">
+
+
+            <div
+                class="dashboard-action"
+                onclick="openDeposit()">
+
+                <div class="icon">
+                    💳
+                </div>
+
+                <span>
+                    Invest
+                </span>
+
+            </div>
+
+
+            <div
+                class="dashboard-action"
+                onclick="openWithdraw()">
+
+                <div class="icon">
+                    💰
+                </div>
+
+                <span>
+                    Withdraw
+                </span>
+
+            </div>
+
+
+            <div
+                class="dashboard-action"
+                onclick="
+                    document
+                    .getElementById('investmentsSection')
+                    .scrollIntoView({
+                        behavior:'smooth'
+                    });
+                ">
+
+                <div class="icon">
+                    📊
+                </div>
+
+                <span>
+                    Investments
+                </span>
+
+            </div>
+
+
+            <div
+                class="dashboard-action"
+                onclick="
+                    document
+                    .getElementById('paymentsSection')
+                    .scrollIntoView({
+                        behavior:'smooth'
+                    });
+                ">
+
+                <div class="icon">
+                    🧾
+                </div>
+
+                <span>
+                    Payments
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- INVESTMENTS -->
+
+        <section
+            class="dashboard-section"
+            id="investmentsSection">
+
+            <div class="section-top">
+
+                <h2>
+                    My Investments
+                </h2>
+
+                <button
+                    class="btn btn-gold"
+                    onclick="openDeposit()">
+
+                    + New Investment
+
+                </button>
+
+            </div>
+
+
+            <div id="investmentsList">
+
+                <div class="empty">
+                    Loading investments...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WITHDRAWALS -->
+
+        <section class="dashboard-section">
+
+            <div class="section-top">
+
+                <h2>
+                    Withdrawal Requests
+                </h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="openWithdraw()">
+
+                    Request Withdrawal
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="withdrawalsList">
+
+                <div class="withdrawal-info">
+
+                    Your withdrawal requests will appear
+                    here after they are submitted.
+
+                    <br><br>
+
+                    Investment withdrawals are subject
+                    to the applicable maturity rules
+                    and administrator review.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAYMENTS -->
+
+        <section
+            class="dashboard-section"
+            id="paymentsSection">
+
+            <div class="section-top">
+
+                <h2>
+                    Payment History
+                </h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="loadPaymentHistory()">
+
+                    ↻ Refresh
+
+                </button>
+
+            </div>
+
+
+            <div id="paymentHistoryList">
+
+                <div class="empty">
+                    Loading payment history...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REFERRAL -->
+
+        <section class="dashboard-section">
+
+            <div class="section-top">
+
+                <h2>
+                    Referral
+                </h2>
+
+            </div>
+
+
+            <div class="referral-box">
+
+                <div>
+
+                    <div style="
+                        color:#777;
+                        font-size:11px;
+                        margin-bottom:7px;
+                    ">
+
+                        Your referral code
+
+                    </div>
+
+
+                    <div
+                        class="referral-code"
+                        id="referralCode">
+
+                        Not available
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn btn-gold"
+                    onclick="copyReferralCode()">
+
+                    Copy
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+    class="loader-overlay"
+    id="loader">
+
+    <div class="loader"></div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast">
+
+    Ready
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://bpwmgsgiqbnhacykteno.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_Y00ypeSVswJKhpRmqzALNw_9ycA6Xf7";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================================
+   PAYSTACK PUBLIC KEY
+========================================================= */
+
+const PAYSTACK_PUBLIC_KEY =
+    "pk_live_fc696378112b473732442004312810b3e7777511";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentUser = null;
+
+let paymentProcessing = false;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatMoney(value){
+
+    return "GH₵" +
+        Number(value || 0).toLocaleString(
+            "en-GH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+function formatDate(value){
+
+    if(!value){
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+        return "—";
+    }
+
+    return date.toLocaleDateString(
+        "en-GH",
+        {
+            year:"numeric",
+            month:"short",
+            day:"numeric"
+        }
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function showLoader(){
+
+    document
+        .getElementById("loader")
+        .classList.add("active");
+
+}
+
+
+function hideLoader(){
+
+    document
+        .getElementById("loader")
+        .classList.remove("active");
+
+}
+
+
+function toast(message){
+
+    const element =
+        document.getElementById("toast");
+
+    element.textContent =
+        message;
+
+    element.classList.add("show");
+
+    setTimeout(
+        function(){
+
+            element.classList.remove("show");
+
+        },
+        3500
+    );
+
+}
+
+
+function setMessage(
+    id,
+    message,
+    type
+){
+
+    const element =
+        document.getElementById(id);
+
+    if(!element){
+        return;
+    }
+
+    element.textContent =
+        message;
+
+    element.className =
+        "message show " +
+        type;
+
+}
+
+
+function clearMessage(id){
+
+    const element =
+        document.getElementById(id);
+
+    if(element){
+
+        element.className =
+            "message";
+
+        element.textContent =
+            "";
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleMobileMenu(){
+
+    document
+        .getElementById("mobileMenu")
+        .classList.toggle("active");
+
+}
+
+
+function closeMobileMenu(){
+
+    document
+        .getElementById("mobileMenu")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   AUTH MODAL
+========================================================= */
+
+function openLogin(){
+
+    clearMessage("loginMessage");
+
+    document
+        .getElementById("authModal")
+        .classList.add("active");
+
+    showLogin();
+
+}
+
+
+function openSignup(){
+
+    clearMessage("signupMessage");
+
+    document
+        .getElementById("authModal")
+        .classList.add("active");
+
+    showSignup();
+
+}
+
+
+function closeAuth(){
+
+    document
+        .getElementById("authModal")
+        .classList.remove("active");
+
+}
+
+
+function showLogin(){
+
+    document
+        .getElementById("loginView")
+        .style.display =
+        "block";
+
+    document
+        .getElementById("signupView")
+        .style.display =
+        "none";
+
+}
+
+
+function showSignup(){
+
+    document
+        .getElementById("loginView")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("signupView")
+        .style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+async function signup(){
+
+    clearMessage("signupMessage");
+
+
+    const name =
+        document
+        .getElementById("signupName")
+        .value
+        .trim();
+
+
+    const email =
+        document
+        .getElementById("signupEmail")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("signupPassword")
+        .value
+        .trim();
+
+
+    if(
+        !name ||
+        !email ||
+        !password
+    ){
+
+        setMessage(
+            "signupMessage",
+            "Please complete all fields.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        setMessage(
+            "signupMessage",
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "signupButton"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Creating Account...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signUp({
+
+                email:email,
+
+                password:password,
+
+                options:{
+                    data:{
+                        full_name:name
+                    }
+                }
+
+            });
+
+
+        if(error){
+
+            setMessage(
+                "signupMessage",
+                error.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(data.session){
+
+            currentUser =
+                data.user;
+
+            closeAuth();
+
+            await enterDashboard(
+                data.user
+            );
+
+            toast(
+                "Account created successfully."
+            );
+
+        }else{
+
+            setMessage(
+                "signupMessage",
+                "Account created. Please sign in to continue.",
+                "success"
+            );
+
+            document
+                .getElementById(
+                    "signupPassword"
+                )
+                .value = "";
+
+            setTimeout(
+                showLogin,
+                900
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        setMessage(
+            "signupMessage",
+            "Unable to create the account. Please try again.",
+            "error"
+        );
+
+    }
+    finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Create Account →";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+    clearMessage("loginMessage");
+
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value
+        .trim();
+
+
+    if(
+        !email ||
+        !password
+    ){
+
+        setMessage(
+            "loginMessage",
+            "Please enter your email and password.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Signing In...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+            .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+        if(error){
+
+            setMessage(
+                "loginMessage",
+                error.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(!data.user){
+
+            setMessage(
+                "loginMessage",
+                "Login failed. Please try again.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        currentUser =
+            data.user;
+
+
+        closeAuth();
+
+
+        await enterDashboard(
+            data.user
+        );
+
+
+        toast(
+            "Welcome back."
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        setMessage(
+            "loginMessage",
+            "Unable to log in. Please try again.",
+            "error"
+        );
+
+    }
+    finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Enter Dashboard →";
+
+    }
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function enterDashboard(user){
+
+    if(!user){
+        return;
+    }
+
+
+    currentUser =
+        user;
+
+
+    document
+        .getElementById("landingPage")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("dashboard")
+        .classList.add("active");
+
+
+    const name =
+        user
+        ?.user_metadata
+        ?.full_name ||
+        user
+        ?.email
+        ?.split("@")[0] ||
+        "Investor";
+
+
+    document
+        .getElementById(
+            "dashboardWelcome"
+        )
+        .textContent =
+        "Welcome, " + name;
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+
+    await refreshDashboard();
+
+}
+
+
+async function refreshDashboard(){
+
+    if(!currentUser){
+        return;
+    }
+
+
+    await loadProfile();
+
+    await loadInvestments();
+
+    await loadPaymentHistory();
+
+    await loadReferral();
+
+    await loadWithdrawals();
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select(`
+            full_name,
+            available_balance,
+            total_invested,
+            total_earnings,
+            referral_code,
+            referral_bonus
+        `)
+        .eq(
+            "id",
+            currentUser.id
+        )
+        .single();
+
+
+    if(error){
+
+        console.error(
+            "Profile error:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "dashboardAvailableBalance"
+        )
+        .textContent =
+        formatMoney(
+            data.available_balance
+        );
+
+
+    document
+        .getElementById(
+            "dashboardTotalInvested"
+        )
+        .textContent =
+        formatMoney(
+            data.total_invested
+        );
+
+
+    document
+        .getElementById(
+            "dashboardTotalEarnings"
+        )
+        .textContent =
+        formatMoney(
+            data.total_earnings
+        );
+
+
+    if(data.full_name){
+
+        document
+            .getElementById(
+                "dashboardWelcome"
+            )
+            .textContent =
+            "Welcome, " +
+            data.full_name;
+
+    }
+
+}
+
+
+/* =========================================================
+   INVESTMENTS
+========================================================= */
+
+async function loadInvestments(){
+
+    const container =
+        document.getElementById(
+            "investmentsList"
+        );
+
+
+    container.innerHTML = `
+        <div class="empty">
+            Loading investments...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("investments")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Investment error:",
+            error
+        );
+
+
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load your investments.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                You don't have any investments yet.
+
+                <br><br>
+
+                <button
+                    class="btn btn-gold"
+                    onclick="openDeposit()">
+
+                    Start Investing →
+
+                </button>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.map(
+            function(item){
+
+                const product =
+                    item.product ||
+                    "Investment";
+
+
+                const amount =
+                    Number(
+                        item.amount || 0
+                    );
+
+
+                const status =
+                    item.status ||
+                    "active";
+
+
+                const created =
+                    item.created_at;
+
+
+                let maturity =
+                    item.maturity_date ||
+                    item.maturity_at ||
+                    null;
+
+
+                if(
+                    !maturity &&
+                    created
+                ){
+
+                    const date =
+                        new Date(created);
+
+                    date.setDate(
+                        date.getDate() + 30
+                    );
+
+                    maturity =
+                        date.toISOString();
+
+                }
+
+
+                return `
+
+                    <div class="record">
+
+                        <div class="record-main">
+
+                            <div>
+
+                                <div class="record-title">
+
+                                    ${escapeHtml(product)}
+
+                                </div>
+
+                                <div class="record-meta">
+
+                                    Invested:
+                                    ${formatDate(created)}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="record-amount">
+
+                                    ${formatMoney(amount)}
+
+                                </div>
+
+                                <div class="record-status">
+
+                                    ✓ ${escapeHtml(status)}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="record-extra">
+
+                            <span>
+                                30-Day Maturity
+                            </span>
+
+                            <strong style="color:#d9ad48">
+
+                                ${formatDate(maturity)}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   PAYMENT HISTORY
+========================================================= */
+
+async function loadPaymentHistory(){
+
+    if(!currentUser){
+        return;
+    }
+
+
+    const container =
+        document.getElementById(
+            "paymentHistoryList"
+        );
+
+
+    container.innerHTML = `
+        <div class="empty">
+            Loading payment history...
+        </div>
+    `;
+
+
+    /*
+     * Confirmed investments are used here as payment
+     * records because the verify-payment function creates
+     * the investment after Paystack verification.
+     */
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("investments")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Payment history error:",
+            error
+        );
+
+
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load payment history.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                No confirmed payments yet.
+
+                <br><br>
+
+                Completed Paystack investments
+                will appear here.
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.map(
+            function(item){
+
+                const reference =
+                    item.reference ||
+                    item.payment_reference ||
+                    item.paystack_reference ||
+                    "Verified";
+
+
+                const product =
+                    item.product ||
+                    "Investment";
+
+
+                const amount =
+                    Number(
+                        item.amount || 0
+                    );
+
+
+                return `
+
+                    <div class="record">
+
+                        <div class="record-main">
+
+                            <div>
+
+                                <div class="record-title">
+
+                                    ${escapeHtml(product)}
+
+                                </div>
+
+                                <div class="record-meta">
+
+                                    ${formatDate(
+                                        item.created_at
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="record-amount">
+
+                                    ${formatMoney(amount)}
+
+                                </div>
+
+                                <div class="record-status">
+
+                                    ✓ Verified
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="record-extra">
+
+                            <span>
+                                Paystack Reference
+                            </span>
+
+                            <strong style="
+                                color:#8e847b;
+                                max-width:60%;
+                                word-break:break-all;
+                                text-align:right;
+                            ">
+
+                                ${escapeHtml(reference)}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   REFERRAL
+========================================================= */
+
+async function loadReferral(){
+
+    const element =
+        document.getElementById(
+            "referralCode"
+        );
+
+
+    if(!element){
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("referral_code")
+        .eq(
+            "id",
+            currentUser.id
+        )
+        .single();
+
+
+    if(error){
+
+        console.error(
+            "Referral error:",
+            error
+        );
+
+        element.textContent =
+            "Not available";
+
+        return;
+
+    }
+
+
+    element.textContent =
+        data.referral_code ||
+        "Not available";
+
+}
+
+
+async function copyReferralCode(){
+
+    const code =
+        document
+        .getElementById(
+            "referralCode"
+        )
+        .textContent;
+
+
+    if(
+        !code ||
+        code === "Not available"
+    ){
+
+        toast(
+            "No referral code is available yet."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        await navigator.clipboard.writeText(
+            code
+        );
+
+        toast(
+            "Referral code copied."
+        );
+
+    }
+    catch(error){
+
+        toast(
+            "Unable to copy the referral code."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   WITHDRAWAL UI
+========================================================= */
+
+function openWithdraw(){
+
+    if(!currentUser){
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    clearMessage(
+        "withdrawMessage"
+    );
+
+
+    document
+        .getElementById(
+            "withdrawModal"
+        )
+        .classList.add("active");
+
+}
+
+
+function closeWithdraw(){
+
+    document
+        .getElementById(
+            "withdrawModal"
+        )
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   WITHDRAWAL SUBMISSION
+   Uses the server-side Supabase request_withdrawal RPC.
+========================================================= */
+
+let withdrawalSubmitting = false;
+
+async function submitWithdrawal(){
+
+    if(withdrawalSubmitting){
+        return;
+    }
+
+    clearMessage("withdrawMessage");
+
+    if(!currentUser){
+        setMessage(
+            "withdrawMessage",
+            "Please sign in before requesting a withdrawal.",
+            "error"
+        );
+        return;
+    }
+
+    const amount = Number(
+        document.getElementById("withdrawAmount").value
+    );
+
+    const number = document.getElementById("withdrawPhone").value.trim();
+
+    const network = document.getElementById("withdrawNetwork").value;
+
+    if(!Number.isFinite(amount) || amount <= 0){
+        setMessage(
+            "withdrawMessage",
+            "Enter a valid withdrawal amount.",
+            "error"
+        );
+        return;
+    }
+
+    if(!number){
+        setMessage(
+            "withdrawMessage",
+            "Enter your Mobile Money number.",
+            "error"
+        );
+        return;
+    }
+
+    if(!network){
+        setMessage(
+            "withdrawMessage",
+            "Select your Mobile Money network.",
+            "error"
+        );
+        return;
+    }
+
+    const button = document.querySelector(
+        '#withdrawModal button[onclick="submitWithdrawal()"]'
+    );
+
+    withdrawalSubmitting = true;
+    if(button){
+        button.disabled = true;
+        button.textContent = "Submitting...";
+    }
+
+    try{
+        const { data, error } = await supabaseClient.rpc(
+            "request_withdrawal",
+            {
+                p_amount: amount,
+                p_payment_method: "Mobile Money",
+                p_account_name:
+                    currentUser.user_metadata?.full_name ||
+                    currentUser.email ||
+                    "Account holder",
+                p_account_number: number,
+                p_provider: network
+            }
+        );
+
+        if(error){
+            throw error;
+        }
+
+        setMessage(
+            "withdrawMessage",
+            "Your withdrawal request was submitted and is awaiting review.",
+            "success"
+        );
+
+        document.getElementById("withdrawAmount").value = "";
+        document.getElementById("withdrawPhone").value = "";
+
+        await loadProfile();
+        await loadWithdrawals();
+
+        setTimeout(closeWithdraw, 1800);
+
+    }catch(error){
+        console.error("Withdrawal request error:", error);
+
+        setMessage(
+            "withdrawMessage",
+            error?.message ||
+                "The withdrawal request could not be submitted. Please try again later.",
+            "error"
+        );
+    }finally{
+        withdrawalSubmitting = false;
+        if(button){
+            button.disabled = false;
+            button.textContent = "Submit Withdrawal Request";
+        }
+    }
+}
+
+
+/* =========================================================
+   LOAD WITHDRAWALS
+========================================================= */
+
+async function loadWithdrawals(){
+
+    const container = document.getElementById("withdrawalsList");
+
+    if(!container || !currentUser){
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="empty">Loading withdrawal requests...</div>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("withdrawals")
+        .select("id, amount, provider, account_number, status, withdrawal_type, requested_at")
+        .eq("user_id", currentUser.id)
+        .order("requested_at", { ascending: false });
+
+    if(error){
+        console.error("Withdrawal history error:", error);
+        container.innerHTML = `
+            <div class="withdrawal-info">
+                Unable to load withdrawal requests right now.
+            </div>
+        `;
+        return;
+    }
+
+    if(!data || data.length === 0){
+        container.innerHTML = `
+            <div class="withdrawal-info">
+                You have no withdrawal requests yet.
+                <br><br>
+                Profit withdrawals are subject to the 15-day eligibility rule and administrator review.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = data.map(function(item){
+        const status = String(item.status || "pending");
+        const statusColor = status === "paid"
+            ? "var(--success)"
+            : status === "rejected"
+                ? "var(--danger)"
+                : "var(--gold-light)";
+
+        const maskedAccount = item.account_number
+            ? "••••" + String(item.account_number).slice(-4)
+            : "—";
+
+        return `
+            <div class="record">
+                <div class="record-main">
+                    <div>
+                        <div class="record-title">
+                            ${escapeHtml(item.withdrawal_type || "profit")} withdrawal
+                        </div>
+                        <div class="record-meta">
+                            ${escapeHtml(item.provider || "Mobile Money")} · ${escapeHtml(maskedAccount)}
+                        </div>
+                        <div class="record-meta">
+                            Requested ${escapeHtml(formatDate(item.requested_at))}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="record-amount">
+                            ${escapeHtml(formatMoney(item.amount))}
+                        </div>
+                        <div class="record-status" style="color:${statusColor}">
+                            ${escapeHtml(status.charAt(0).toUpperCase() + status.slice(1))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+}
+
+
+/* =========================================================
+   DEPOSIT MODAL
+========================================================= */
+
+function openDeposit(product){
+
+    if(!currentUser){
+
+        openLogin();
+
+        toast(
+            "Please sign in before investing."
+        );
+
+        return;
+
+    }
+
+
+    clearMessage(
+        "depositMessage"
+    );
+
+
+    document
+        .getElementById(
+            "depositModal"
+        )
+        .classList.add("active");
+
+
+    if(product === "Gold"){
+
+        document
+            .getElementById(
+                "investmentProduct"
+            )
+            .value =
+            "Gold";
+
+    }
+
+
+    if(product === "Cocoa"){
+
+        document
+            .getElementById(
+                "investmentProduct"
+            )
+            .value =
+            "Cocoa";
+
+    }
+
+}
+
+
+function closeDeposit(){
+
+    document
+        .getElementById(
+            "depositModal"
+        )
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   PAYSTACK
+========================================================= */
+
+async function startPaystackPayment(){
+
+    if(paymentProcessing){
+        return;
+    }
+
+
+    clearMessage(
+        "depositMessage"
+    );
+
+
+    const amount =
+        Number(
+            document
+            .getElementById(
+                "investmentAmount"
+            )
+            .value
+        );
+
+
+    const product =
+        document
+        .getElementById(
+            "investmentProduct"
+        )
+        .value;
+
+
+    if(
+        !Number.isFinite(amount)
+    ){
+
+        setMessage(
+            "depositMessage",
+            "Enter a valid investment amount.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(amount < 20){
+
+        setMessage(
+            "depositMessage",
+            "Minimum investment is GH₵20.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(amount > 10000){
+
+        setMessage(
+            "depositMessage",
+            "Maximum investment is GH₵10,000.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        product !== "Gold" &&
+        product !== "Cocoa"
+    ){
+
+        setMessage(
+            "depositMessage",
+            "Please select Gold or Cocoa.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data:{
+            user
+        }
+    } =
+        await supabaseClient.auth
+        .getUser();
+
+
+    if(!user){
+
+        closeDeposit();
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    currentUser =
+        user;
+
+
+    paymentProcessing =
+        true;
+
+
+    const button =
+        document.getElementById(
+            "paymentButton"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Opening Secure Payment...";
+
+
+    try{
+
+        if(
+            typeof PaystackPop ===
+            "undefined"
+        ){
+
+            throw new Error(
+                "Paystack could not be loaded."
+            );
+
+        }
+
+
+        const handler =
+            PaystackPop.setup({
+
+                key:
+                    PAYSTACK_PUBLIC_KEY,
+
+                email:
+                    user.email,
+
+                amount:
+                    Math.round(
+                        amount * 100
+                    ),
+
+                currency:
+                    "GHS",
+
+                metadata:{
+
+                    user_id:
+                        user.id,
+
+                    product:
+                        product,
+
+                    investment_amount:
+                        amount
+
+                },
+
+
+                callback:
+                    async function(response){
+
+                        await verifyPayment(
+                            response.reference,
+                            product,
+                            amount
+                        );
+
+                    },
+
+
+                onClose:
+                    function(){
+
+                        paymentProcessing =
+                            false;
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "Continue to Secure Payment →";
+
+                    }
+
+            });
+
+
+        handler.openIframe();
+
+    }
+    catch(error){
+
+        console.error(
+            "Paystack error:",
+            error
+        );
+
+
+        paymentProcessing =
+            false;
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "Continue to Secure Payment →";
+
+
+        setMessage(
+            "depositMessage",
+            error.message ||
+            "Unable to start payment.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   VERIFY PAYMENT
+========================================================= */
+
+async function verifyPayment(
+    reference,
+    product,
+    amount
+){
+
+    try{
+
+        showLoader();
+
+
+        /*
+         * The browser sends ONLY the Paystack reference.
+         *
+         * Your Edge Function is responsible for securely
+         * verifying that reference with Paystack.
+         */
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .functions
+            .invoke(
+                "verify-payment",
+                {
+                    body:{
+                        reference:reference
+                    }
+                }
+            );
+
+
+        if(error){
+
+            console.error(
+                "verify-payment error:",
+                error
+            );
+
+
+            throw new Error(
+                error.message ||
+                "Payment verification failed."
+            );
+
+        }
+
+
+        if(
+            !data ||
+            !data.success
+        ){
+
+            throw new Error(
+                data?.message ||
+                "Payment could not be verified."
+            );
+
+        }
+
+
+        closeDeposit();
+
+
+        document
+            .getElementById(
+                "investmentAmount"
+            )
+            .value =
+            "";
+
+
+        toast(
+            "Payment verified. Investment added successfully."
+        );
+
+
+        /*
+         * Refresh the dashboard from Supabase.
+         */
+
+        const {
+            data:{
+                user
+            }
+        } =
+            await supabaseClient.auth
+            .getUser();
+
+
+        if(user){
+
+            currentUser =
+                user;
+
+            await refreshDashboard();
+
+        }
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification error:",
+            error
+        );
+
+
+        setMessage(
+            "depositMessage",
+            error.message ||
+            "Payment verification failed.",
+            "error"
+        );
+
+
+        /*
+         * Keep the deposit modal open so the user can
+         * see the verification problem.
+         */
+
+        document
+            .getElementById(
+                "depositModal"
+            )
+            .classList.add("active");
+
+    }
+    finally{
+
+        hideLoader();
+
+        paymentProcessing =
+            false;
+
+
+        const button =
+            document.getElementById(
+                "paymentButton"
+            );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "Continue to Secure Payment →";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+    showLoader();
+
+
+    try{
+
+        await supabaseClient.auth.signOut();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+    }
+
+
+    currentUser =
+        null;
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.remove("active");
+
+
+    document
+        .getElementById(
+            "landingPage"
+        )
+        .style.display =
+        "block";
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+
+    hideLoader();
+
+
+    toast(
+        "You have been logged out."
+    );
+
+}
+
+
+/* =========================================================
+   EXISTING SESSION
+========================================================= */
+
+async function checkUser(){
+
+    try{
+
+        const {
+            data:{
+                session
+            }
+        } =
+            await supabaseClient.auth
+            .getSession();
+
+
+        if(session){
+
+            currentUser =
+                session.user;
+
+            await enterDashboard(
+                session.user
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event, session){
+
+        if(
+            event === "SIGNED_OUT"
+        ){
+
+            currentUser =
+                null;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   OUTSIDE MODAL CLICK
+========================================================= */
+
+document
+    .getElementById("authModal")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                this
+            ){
+
+                closeAuth();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("depositModal")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                this
+            ){
+
+                closeDeposit();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("withdrawModal")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                this
+            ){
+
+                closeWithdraw();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            closeAuth();
+
+            closeDeposit();
+
+            closeWithdraw();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkUser();
+
+</script>
+
+</body>
+</html>
