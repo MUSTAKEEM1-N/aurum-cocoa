@@ -9,7 +9,6 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="description"
       content="Aurum-Cocoa — a modern Gold and Cocoa investment platform.">
-
 <style>
 
 /* =========================================================
@@ -1480,6 +1479,22 @@ footer{
     display:block;
 }
 
+.dashboard-header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.share-dashboard-btn{
+    border:1px solid rgba(218,175,71,.45);
+    color:var(--gold-light);
+    background:rgba(218,175,71,.08);
+}
+
+.nav-share{
+    background:rgba(218,175,71,.08);
+}
+
 .dashboard-header{
 
     position:sticky;
@@ -2128,6 +2143,15 @@ footer{
             0 16px;
     }
 
+    .dashboard-header-actions{
+        gap:6px;
+    }
+
+    .dashboard-header-actions .btn{
+        padding:10px 12px;
+        font-size:12px;
+    }
+
     .dashboard-main{
         padding:
             30px 16px 80px;
@@ -2229,6 +2253,14 @@ footer{
 
             </a>
 
+            <a href="#"
+               class="nav-login nav-share"
+               onclick="shareAurumCocoa();return false;">
+
+                ↗ Share
+
+            </a>
+
         </nav>
 
 
@@ -2279,6 +2311,13 @@ footer{
            onclick="openLogin();closeMobileMenu();return false;">
 
             Sign In
+
+        </a>
+
+        <a href="#"
+           onclick="closeMobileMenu();shareAurumCocoa();return false;">
+
+            ↗ Share Aurum-Cocoa
 
         </a>
 
@@ -3296,13 +3335,25 @@ footer{
         </div>
 
 
-        <button
-            class="btn btn-dark"
-            onclick="logout()">
+        <div class="dashboard-header-actions">
 
-            Logout
+            <button
+                class="btn btn-dark share-dashboard-btn"
+                onclick="shareAurumCocoa()">
 
-        </button>
+                ↗ Share
+
+            </button>
+
+            <button
+                class="btn btn-dark"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
 
     </header>
 
@@ -3827,6 +3878,54 @@ function clearMessage(id){
 
     }
 
+}
+
+
+/* =========================================================
+   SHARE AURUM-COCOA
+========================================================= */
+
+async function shareAurumCocoa(){
+
+    const shareData = {
+        title: "Aurum-Cocoa | Gold & Cocoa Investments",
+        text: "Visit Aurum-Cocoa — Gold & Cocoa Investments.",
+        url: "https://mustakeem1-n.github.io/aurum-cocoa/"
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            return;
+        } catch (error) {
+            // If the visitor cancels the share sheet, do not show an error.
+            if (error && error.name === "AbortError") return;
+        }
+    }
+
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(shareData.url);
+        } else {
+            const field = document.createElement("textarea");
+            field.value = shareData.url;
+            field.setAttribute("readonly", "");
+            field.style.position = "fixed";
+            field.style.left = "-9999px";
+            document.body.appendChild(field);
+            field.select();
+            const copied = document.execCommand("copy");
+            field.remove();
+            if (!copied) throw new Error("Copy failed");
+        }
+        if (typeof toast === "function") {
+            toast("Aurum-Cocoa link copied. Share it with your friends!");
+        } else {
+            alert("Aurum-Cocoa link copied: " + shareData.url);
+        }
+    } catch (error) {
+        window.prompt("Copy the Aurum-Cocoa website link:", shareData.url);
+    }
 }
 
 
